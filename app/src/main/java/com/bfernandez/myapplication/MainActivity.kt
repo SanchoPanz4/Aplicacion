@@ -46,6 +46,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.bfernandez.myapplication.ui.theme.MyApplicationTheme
 
 class MainActivity : ComponentActivity() {
@@ -55,39 +57,12 @@ class MainActivity : ComponentActivity() {
 
             MyApplicationTheme {
                 Navigation()
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    containerColor = Color(0, 16, 41, 255),
-                    topBar = {
-                        Button(
-                            onClick = {},
-                            colors = ButtonColors(
-                                containerColor = Color(40, 196, 217, 255),
-                                contentColor = Color.White,
-                                disabledContainerColor = Color.White,
-                                disabledContentColor = Color.White,
-                            )
-                        ) {
-                            Text("< Back", fontSize = 20.sp)
-                        }
-                    },
-                    bottomBar = {BottomBar()}
-                ) { innerPadding ->
-                    Column(modifier = Modifier.padding(innerPadding)) {
-                        Text(
-                            "Select User Type ",
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 30.sp
-                        )
-                        Text("Please choose your profession", color = Color(255, 255, 255, 200))
-                        GridCards()
-                    }
-                }
+
             }
         }
     }
 }
+
 
 @Composable
 fun GridCards() {
@@ -138,11 +113,11 @@ fun GridCards() {
                     }
                     Icon(
                         painterResource(it.icon),
-                        contentDescription = "Author",
+                        contentDescription = it.title,
                         modifier = Modifier.size(50.dp)
                     )
                     Text(
-                        "Author",
+                        it.title,
                     )
                 }
             }
@@ -170,7 +145,7 @@ fun GreetingPreview() {
 }
 
 @Composable
-fun BottomBar(){
+fun BottomBar(navController: NavHostController){
     var textValue by remember { mutableStateOf("") }
     Row(
         modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp),
@@ -183,7 +158,7 @@ fun BottomBar(){
             label = { Text("Enter as Guest") },
         )
         Spacer(modifier = Modifier.size(20.dp))
-        Button(onClick = {},
+        Button(onClick = {navController.navigate(Pagina2("hola"))},
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(48, 82, 250, 255),
                 contentColor = Color.White
@@ -191,5 +166,6 @@ fun BottomBar(){
         ) {
             Icon(Icons.AutoMirrored.Default.ArrowForward, contentDescription = "next")
         }
+        Button(onClick = {navController.navigate(Paginaprueba)}) { }
     }
 }
